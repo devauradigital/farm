@@ -431,6 +431,13 @@
             margin: 0;
         }
 
+        /* Mobile menu button active state */
+        .mobile-menu-active {
+            background-color: var(--primary);
+            border-radius: 0.25rem;
+            padding: 2px;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -482,6 +489,11 @@
                 width: 8px;
                 height: 8px;
                 margin: 0 5px;
+            }
+            /* Mobile menu link active state */
+            #mobile-menu a:active {
+                background-color: var(--primary);
+                color: white;
             }
         }
         @media (max-width: 640px) {
@@ -586,6 +598,7 @@
             <input type="text" id="cart-name" name="cart-name" placeholder="Enter your name" required aria-required="true" aria-labelledby="cart-name-label" class="quantity-input">
             <label for="cart-quantity" id="cart-quantity-label">Quantity (kg):</label>
             <input type="number" id="cart-quantity" name="cart-quantity" min="1" max="150" step="1" value="1" required aria-required="true" aria-labelledby="cart-quantity-label" class="quantity-input">
+            <p class="text-gray-800 font-medium" id="cart-total-amount">Total Amount: ₦4,000</p>
             <label for="cart-address" id="cart-address-label">Delivery Address:</label>
             <textarea id="cart-address" name="cart-address" placeholder="Enter your delivery address" required aria-required="true" aria-labelledby="cart-address-label"></textarea>
             <label for="cart-mobile" id="cart-mobile-label">Mobile Number:</label>
@@ -1063,6 +1076,14 @@
             const cartAddressInput = document.getElementById('cart-address');
             const cartMobileInput = document.getElementById('cart-mobile');
             const submitOrderButton = document.getElementById('submit-order');
+            const cartTotalAmount = document.getElementById('cart-total-amount');
+
+            function updateCartTotalAmount() {
+                const quantity = parseInt(cartQuantityInput.value) || 1;
+                const basePrice = 4000;
+                const totalPrice = quantity * basePrice;
+                cartTotalAmount.textContent = `Total Amount: ₦${totalPrice.toLocaleString()}`;
+            }
 
             function toggleCartModal() {
                 if (cartQuantity === 0) {
@@ -1073,6 +1094,7 @@
                 cartModal.classList.toggle('open');
                 if (cartModal.classList.contains('open')) {
                     cartQuantityInput.value = cartQuantity; // Pre-fill quantity from cart
+                    updateCartTotalAmount(); // Update total amount when opening
                 }
             }
 
@@ -1089,6 +1111,15 @@
             cartButton.addEventListener('click', toggleCartModal);
             cartButtonMobile.addEventListener('click', toggleCartModal);
             closeCart.addEventListener('click', closeCartModal);
+
+            // Update total amount when cart quantity changes
+            cartQuantityInput.addEventListener('input', () => {
+                let value = parseInt(cartQuantityInput.value) || 1;
+                if (value < 1) value = 1;
+                if (value > 150) value = 150;
+                cartQuantityInput.value = value;
+                updateCartTotalAmount();
+            });
 
             // Handle order submission with mobile number validation
             submitOrderButton.addEventListener('click', () => {
@@ -1146,6 +1177,7 @@
                 cartQuantityInput.value = 1;
                 cartAddressInput.value = '';
                 cartMobileInput.value = '+234'; // Reset to default +234
+                updateCartTotalAmount();
             });
 
             // Set current year
@@ -1157,6 +1189,7 @@
 
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                mobileMenuButton.classList.toggle('mobile-menu-active');
                 mobileMenuButton.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
             });
 
@@ -1164,6 +1197,7 @@
             window.addEventListener('scroll', () => {
                 if (window.innerWidth <= 768 && !mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
+                    mobileMenuButton.classList.remove('mobile-menu-active');
                     mobileMenuButton.setAttribute('aria-expanded', 'false');
                 }
             });
@@ -1228,6 +1262,7 @@
                         smoothScroll(targetY, 1000);
                         if (window.innerWidth <= 768 && !mobileMenu.classList.contains('hidden')) {
                             mobileMenu.classList.add('hidden');
+                            mobileMenuButton.classList.remove('mobile-menu-active');
                             mobileMenuButton.setAttribute('aria-expanded', 'false');
                         }
                     }
