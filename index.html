@@ -22,24 +22,28 @@
             --accent: #f9a825;
         }
         
-        body {
-            font-family: 'Outfit', sans-serif;
+        html, body {
             margin: 0;
             padding: 0;
             color: #333;
             background-color: #f9f9f9;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         
         .navbar {
-            background-color: transparent;
+            background-color: rgba(26, 86, 50, 0.6);
             transition: background-color 0.3s ease;
             position: fixed;
             width: 100%;
+            top: 0;
+            left: 0;
             z-index: 100;
         }
         
         .navbar.scrolled {
-            background-color: rgba(26, 86, 50, 0.6);
+            background-color: rgba(26, 86, 50, 0.9);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
@@ -451,7 +455,7 @@
                 font-size: 0.8rem;
             }
             .faq-container {
-                padding: .2rem;
+                padding: 0.2rem;
             }
             .faq-swiper {
                 min-height: 200px;
@@ -610,16 +614,16 @@
             </div>
             <div class="flex flex-wrap about-flex">
                 <div class="w-full md:w-1/2 p-6">
+                    <div class="farm-image-container h-full">
+                        <img src="story.png" alt="Farm field with workers" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 p-6">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4">Our Story</h3>
                     <p class="text-gray-600 mb-4">Founded in 2010, Sweet Vegetable Farm began as a small family operation in the fertile lands of Nigeria. What started as a modest patch of pumpkin cultivation has grown into a specialized agricultural business focused solely on producing premium-quality pumpkin flute.</p>
                     <p class="text-gray-600 mb-4">We take pride in our commitment to sustainable farming practices that not only yield the most flavorful and nutritious pumpkin flute but also protect our environment for future generations.</p>
                     <p class="text-gray-600 mb-4">Today, we supply fresh, high-grade pumpkin flute to households, restaurants, and supermarkets across Nigeria, staying true to the quality and care that marked our humble beginnings.</p>
                     <p class="text-gray-600">As we continue to grow, Sweet Vegetable Farm remains dedicated to innovation in pumpkin farming. By embracing modern cultivation techniques, efficient irrigation, and organic methods, we ensure our produce stays fresh, healthy, and safe. Our mission is to nourish communities with the best pumpkin flute while supporting local farmers and promoting a sustainable agricultural future.</p>
-                </div>
-                <div class="w-full md:w-1/2 p-6">
-                    <div class="farm-image-container h-full">
-                        <img src="story.png" alt="Farm field with workers" class="w-full h-full object-cover">
-                    </div>
                 </div>
             </div>
             <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -1148,17 +1152,26 @@
             document.getElementById('current-year').textContent = new Date().getFullYear();
 
             // Mobile menu toggle
-            document.getElementById('mobile-menu-button').addEventListener('click', () => {
-                const menu = document.getElementById('mobile-menu');
-                menu.classList.toggle('hidden');
-                const button = document.getElementById('mobile-menu-button');
-                button.setAttribute('aria-expanded', menu.classList.contains('hidden') ? 'false' : 'true');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuButton.setAttribute('aria-expanded', mobileMenu.classList.contains('hidden') ? 'false' : 'true');
+            });
+
+            // Close mobile menu on scroll (mobile only)
+            window.addEventListener('scroll', () => {
+                if (window.innerWidth <= 768 && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                }
             });
 
             // Navbar scroll effect
             window.addEventListener('scroll', () => {
                 const navbar = document.querySelector('.navbar');
-                if (window.scrollY > 50) {
+                if (window.scrollY > 0) {
                     navbar.classList.add('scrolled');
                 } else {
                     navbar.classList.remove('scrolled');
@@ -1213,10 +1226,9 @@
                     if (targetElement) {
                         const targetY = targetElement.offsetTop - 80;
                         smoothScroll(targetY, 1000);
-                        const mobileMenu = document.getElementById('mobile-menu');
-                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        if (window.innerWidth <= 768 && !mobileMenu.classList.contains('hidden')) {
                             mobileMenu.classList.add('hidden');
-                            document.getElementById('mobile-menu-button').setAttribute('aria-expanded', 'false');
+                            mobileMenuButton.setAttribute('aria-expanded', 'false');
                         }
                     }
                 });
