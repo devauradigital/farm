@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Vegetable Farm - Premium Nigerian Vegetables</title>
+    <meta name="description" content="Premium pumpkin flute from Sweet Vegetable Farm, Nigeria. Fresh, organic, and delivered to your doorstep.">
+    <meta name="keywords" content="pumpkin flute, organic vegetables, Nigerian farm, Sweet Vegetable Farm">
+    <meta name="author" content="Sweet Vegetable Farm">
+    <meta property="og:title" content="Sweet Vegetable Farm - Premium Nigerian Vegetables">
+    <meta property="og:description" content="Discover fresh, organic pumpkin flute from Nigeria's heartland.">
+    <meta property="og:image" content="images/pumpkin flute.png">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #1a5632;
+            --secondary: #e8f5e9;
+            --accent: #f9a825;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .navbar {
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(26, 86, 50, 0.6);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('banner.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .product-section {
+            background: url('pumpkin flute.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        
+        .product-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1;
+        }
+        
+        .product-section > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .map-container {
+            height: 300px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+        }
+        
+        .farm-image-container {
+            position: relative;
+            border: 4px solid var(--primary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .farm-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(26, 86, 50, 0.1), rgba(26, 86, 50, 0.3));
+            pointer-events: none;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background-color: var(--primary);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #134124;
+        }
+
+        .quantity-input {
+            width: 4rem;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 0.25rem;
+            padding: 0.25rem;
+        }
+        
+        /* Swiper styles */
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.6;
+            width: 10px;
+            height: 10px;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--primary);
+            opacity: 1;
+        }
+
+        /* FAQ Section Styles */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 50;
+        }
+
+        .faq-swiper {
+            height: auto;
+            min-height: 300px;
+            overflow: visible;
+        }
+
+        .faq-slide {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9f5ee 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            height: auto;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            border: 1px solid rgba(26, 86, 50, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .faq-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" opacity="0.05"><path d="M28.5,50 C28.5,37.5 37.5,28.5 50,28.5 C62.5,28.5 71.5,37.5 71.5,50 C71.5,62.5 62.5,71.5 50,71.5 C37.5,71.5 28.5,62.5 28.5,50 Z" fill="%231a5632"/></svg>');
+            opacity: 0.1;
+        }
+
+        .faq-slide-active {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9f3 100%);
+        }
+
+        .faq-question {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1rem;
+            line-height: 1.4;
+        }
+
+        .faq-answer {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #333;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .faq-pagination {
+            position: relative;
+            bottom: 0;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .faq-pagination .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            margin: 0 6px;
+            background: #d1d9e0;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .faq-pagination .swiper-pagination-bullet-active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Testimonial Swiper styles */
+        .testimonial-card {
+            background: linear-gradient(135deg, var(--secondary), #ffffff);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .testimonial-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .testimonialSwiper .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.6;
+            width: 10px;
+            height: 10px;
+        }
+
+        .testimonialSwiper .swiper-pagination-bullet-active {
+            background: var(--primary);
+            opacity: 1;
+        }
+
+        /* Cart Modal Styles (Right Sidebar) */
+        .cart-modal {
+            display: block;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            z-index: 200;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart-modal.open {
+            transform: translateX(0);
+        }
+
+        .cart-modal-content {
+            padding: 2rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .cart-modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-modal-content label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .cart-modal-content input,
+        .cart-modal-content textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .cart-modal-content textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .cart-modal-content button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-modal-content button:hover {
+            background-color: #134124;
+        }
+
+        .close-cart {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Cart Quantity Text Styles */
+        .cart-quantity-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-left: 0.5rem;
+        }
+
+        /* Custom Popup Styles */
+        .custom-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, var(--secondary), #ffffff);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 400px;
+            width: 90%;
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .custom-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .custom-popup-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .custom-popup-content i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .custom-popup-content p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .find-us h2 {
+                font-size: 2.5rem;
+            }
+            .cart-modal {
+                width: 100%;
+                max-width: 300px;
+            }
+            .cart-modal-content {
+                padding: 1.5rem;
+            }
+            .custom-popup {
+                padding: 1rem;
+            }
+            .custom-popup-content p {
+                font-size: 1rem;
+            }
+            .cart-quantity-text {
+                font-size: 0.8rem;
+            }
+            .faq-container {
+                padding: .2rem;
+            }
+            .faq-swiper {
+                min-height: 200px;
+            }
+            .faq-slide {
+                padding: 1rem;
+                min-height: 150px;
+                border-radius: 12px;
+            }
+            .faq-question {
+                font-size: 1.1rem;
+                margin-bottom: 0.75rem;
+                padding-left: 0.75rem;
+            }
+            .faq-answer {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+                border-radius: 6px;
+            }
+            .faq-pagination {
+                margin-top: 1rem;
+            }
+            .faq-pagination .swiper-pagination-bullet {
+                width: 8px;
+                height: 8px;
+                margin: 0 5px;
+            }
+        }
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Popup -->
+    <div class="custom-popup" id="custom-popup">
+        <div class="custom-popup-content">
+            <i class="fas fa-check-circle"></i>
+            <p>Item added to cart!</p>
+        </div>
+    </div>
+
+    <!-- Transparent Navbar -->
+    <nav class="navbar">
+        <div class="max-w-[1400px] container mx-auto px-6 py-6">
+            <div class="flex items-center justify-between">
+                <div class="text-white text-2xl font-bold hover:text-green-400 transition duration-300">
+                    <a href="#">Sweet <span class="text-green-500">Vegetable Farm</span></a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-white hover:text-green-400 transition duration-300">Home</a>
+                    <a href="#about" class="text-white hover:text-green-400 transition duration-300">About Us</a>
+                    <a href="#products" class="text-white hover:text-green-400 transition duration-300">Our Product</a>
+                    <a href="#faq" class="text-white hover:text-green-400 transition duration-300">FAQ's</a>
+                    <a href="#contact" class="text-white hover:text-green-400 transition duration-300">Contact Us</a>
+                    <div class="flex items-center">
+                        <button id="cart-button" class="text-white hover:text-green-200 transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                        <span id="cart-quantity-text" class="cart-quantity-text">0</span>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <button id="cart-button-mobile" class="text-white hover:text-green-200 transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                        <span id="cart-quantity-text-mobile" class="cart-quantity-text">0</span>
+                    </div>
+                    <button class="text-white focus:outline-none" id="mobile-menu-button" aria-label="Toggle mobile menu" aria-expanded="false">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden bg-white rounded-lg mt-2 py-2" id="mobile-menu">
+                <a href="#home" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Home</a>
+                <a href="#about" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">About Us</a>
+                <a href="#products" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Our Product</a>
+                <a href="#faq" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">FAQ's</a>
+                <a href="#contact" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Modal (Right Sidebar) -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-modal-content">
+            <span class="close-cart" id="close-cart">×</span>
+            <h2>Place Your Order</h2>
+            <label for="cart-name" id="cart-name-label">Name:</label>
+            <input type="text" id="cart-name" name="cart-name" placeholder="Enter your name" required aria-required="true" aria-labelledby="cart-name-label" class="quantity-input">
+            <label for="cart-quantity" id="cart-quantity-label">Quantity (kg):</label>
+            <input type="number" id="cart-quantity" name="cart-quantity" min="1" max="150" step="1" value="1" required aria-required="true" aria-labelledby="cart-quantity-label" class="quantity-input">
+            <label for="cart-address" id="cart-address-label">Delivery Address:</label>
+            <textarea id="cart-address" name="cart-address" placeholder="Enter your delivery address" required aria-required="true" aria-labelledby="cart-address-label"></textarea>
+            <label for="cart-mobile" id="cart-mobile-label">Mobile Number:</label>
+            <input type="tel" id="cart-mobile" name="cart-mobile" placeholder="Enter your mobile number (e.g., +2348123456789)" required aria-required="true" aria-labelledby="cart-mobile-label">
+            <button id="submit-order">Send Order via WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl font-bold mb-6">Premium Pumpkin Flute from<br>Nigeria's Heartland</h1>
+                <p class="text-xl mb-8">Experience the freshness and quality of our farm-fresh produce, cultivated with care and delivered straight to your table.</p>
+                <a href="#products" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 inline-block">Our Product</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="py-20 bg-white" id="about">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">About Sweet Vegetable Farm</h2>
+                <div class="w-20 h-1 bg-green-400 mx-auto"></div>
+            </div>
+            <div class="flex flex-wrap">
+                <div class="w-full md:w-1/2 p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Our Story</h3>
+                    <p class="text-gray-600 mb-4">Founded in 2010, Sweet Vegetable Farm began as a small family operation in the fertile lands of Nigeria. What started as a modest patch of pumpkin cultivation has grown into a specialized agricultural business focused solely on producing premium-quality pumpkin flute.</p>
+                    <p class="text-gray-600 mb-4">We take pride in our commitment to sustainable farming practices that not only yield the most flavorful and nutritious pumpkin flute but also protect our environment for future generations.</p>
+                    <p class="text-gray-600 mb-4">Today, we supply fresh, high-grade pumpkin flute to households, restaurants, and supermarkets across Nigeria, staying true to the quality and care that marked our humble beginnings.</p>
+                    <p class="text-gray-600">As we continue to grow, Sweet Vegetable Farm remains dedicated to innovation in pumpkin farming. By embracing modern cultivation techniques, efficient irrigation, and organic methods, we ensure our produce stays fresh, healthy, and safe. Our mission is to nourish communities with the best pumpkin flute while supporting local farmers and promoting a sustainable agricultural future.</p>
+                </div>
+                <div class="w-full md:w-1/2 p-6">
+                    <div class="farm-image-container h-full">
+                        <img src="story.png" alt="Farm field with workers" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-green-100 p-8 rounded-lg shadow-sm fade-in hover:bg-green-200 transition duration-300">
+                    <div class="text-green-600 mb-4">
+                        <i class="fas fa-leaf text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Organic Practices</h3>
+                    <p class="text-gray-600">We use traditional farming methods combined with modern organic techniques to ensure the highest quality produce.</p>
+                </div>
+                <div class="bg-green-100 p-8 rounded-lg shadow-sm fade-in hover:bg-green-200 transition duration-300">
+                    <div class="text-green-600 mb-4">
+                        <i class="fas fa-award text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Quality Focus</h3>
+                    <p class="text-gray-600">Every pumpkin flute is hand-selected at peak ripeness, ensuring you receive only the freshest and most nutritious produce.</p>
+                </div>
+                <div class="bg-green-100 p-8 rounded-lg shadow-sm fade-in hover:bg-green-200 transition duration-300">
+                    <div class="text-green-600 mb-4">
+                        <i class="fas fa-truck text-4xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Quick Delivery</h3>
+                    <p class="text-gray-600">Our efficient distribution network ensures your vegetables arrive fresh within 24 hours of harvest.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-20 product-section" id="products">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-300 mb-4">Our Premium Product</h2>
+                <div class="w-20 h-1 bg-green-400 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 justify-items-center gap-8">
+                <!-- Featured Product (Pumpkin Flute) -->
+                <div class="product-card bg-green-200 rounded-lg overflow-hidden shadow-md max-w-md">
+                    <div class="relative h-48 w-full">
+                        <img src="pumpkin flute.png" alt="Pumpkin Flute" class="h-full w-full object-cover">
+                        <div class="absolute top-2 right-2 bg-green-400 text-gray-800 text-xs font-bold px-2 py-1 rounded-full">NEW</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">Pumpkin Flute</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="mr-2 text-green-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-sm">4.9/5 (128 reviews)</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">Our signature produce, pumpkin flute, boasts a naturally sweet flavor and tender texture. Perfect for soups, stews, roasting, and traditional Nigerian dishes.</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-bold text-xl" id="price-display">₦4,000 / kg</span>
+                            <div class="quantity-controls">
+                                <label for="quantity" class="text-gray-700 font-medium sr-only">Quantity (kg):</label>
+                                <button class="quantity-btn" id="decrease-quantity">-</button>
+                                <input type="number" id="quantity" name="quantity" min="1" max="150" step="1" value="1" class="quantity-input">
+                                <button class="quantity-btn" id="increase-quantity">+</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <button id="order-now" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-full text-sm transition duration-300 flex items-center">
+                                <i class="fas fa-shopping-cart mr-3"></i>Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-green-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">What Our Customers Say</h2>
+                <div class="w-20 h-1 bg-green-400 mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Don't just take our word for it. Here's what our satisfied customers have to say about our products.</p>
+            </div>
+            <div class="swiper testimonialSwiper fade-in">
+                <div class="swiper-wrapper pb-12">
+                    <div class="swiper-slide">
+                        <div class="testimonial-card bg-white p-8 rounded-lg shadow-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <img src="Customer 1.jpg" alt="Amina Bello" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                <div>
+                                    <h4 class="font-bold" style="color: var(--primary);">Amina Bello</h4>
+                                    <div class="flex mt-1">
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"The Pumpkin Flute transformed my restaurant's stew. Customers love it! Quality and delivery are outstanding."</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card bg-white p-8 rounded-lg shadow-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <img src="Customer 2.jpg" alt="Emeka Okonkwo" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                <div>
+                                    <h4 class="font-bold" style="color: var(--primary);">Emeka Okonkwo</h4>
+                                    <div class="flex mt-1">
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"As a supermarket owner, their pumpkin flute is our top seller. Consistent quality for three years!"</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card bg-white p-8 rounded-lg shadow-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <img src="Customer 3.jpg" alt="Fatima Ibrahim" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                <div>
+                                    <h4 class="font-bold" style="color: var(--primary);">Fatima Ibrahim</h4>
+                                    <div class="flex mt-1">
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"My kids now love vegetables thanks to this pumpkin flute! It's unbelievable delicious!"</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-card bg-white p-8 rounded-lg shadow-sm h-full">
+                            <div class="flex items-center mb-4">
+                                <img src="Customer 4.jpg" alt="John Adekunle" class="w-12 h-12 rounded-full mr-4">
+                                <div>
+                                    <h4 class="font-bold" style="color: var(--primary);">John Adekunle</h4>
+                                    <div class="flex mt-1">
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                        <i class="fas fa-star text-green-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 italic">"Exceptional customer service and top-notch pumpkin flute. They truly care about our customers."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-10 bg-green-100" id="faq">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+                <div class="w-20 h-1 bg-green-400 mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-xl mx-auto">Find answers to common questions about our premium products.</p>
+            </div>
+            <div class="faq-container">
+                <div class="swiper faqSwiper">
+                    <div class="swiper-wrapper pb-12">
+                        <div class="swiper-slide faq-slide">
+                            <div class="faq-question">Where is our farm located?</div>
+                            <div class="faq-answer">Our main farm is located in the fertile agricultural region of Ogun State, Nigeria, with additional operations in nearby states to ensure year-round availability of our produce.</div>
+                        </div>
+                        <div class="swiper-slide faq-slide">
+                            <div class="faq-question">How can I order our products?</div>
+                            <div class="faq-answer">You can order directly through our WhatsApp number (+234 812 345 6789), via phone call (+234 812 345 6788), or by visiting our farm in person. We're working on an online ordering system that will launch soon.</div>
+                        </div>
+                        <div class="swiper-slide faq-slide">
+                            <div class="faq-question">What makes Pumpkin Flute special?</div>
+                            <div class="faq-answer">Pumpkin flute is our signature vegetable, carefully developed over 8 years of selective breeding to achieve the perfect balance of natural sweetness and tender texture. With its rich, smooth flavor, it complements a wide range of Nigerian dishes, from soups and stews to traditional favorites. Grown using our specialized organic farming techniques, pumpkin flute delivers enhanced taste and high nutritional value—making it a wholesome and delicious choice for any meal.</div>
+                        </div>
+                        <div class="swiper-slide faq-slide">
+                            <div class="faq-question">Do we offer wholesale prices?</div>
+                            <div class="faq-answer">Yes, we offer significant discounts for wholesale buyers. For bulk orders above 50kg of any single product, you receive a 15% discount. Regular business clients may qualify for additional benefits based on order frequency and volume.</div>
+                        </div>
+                        <div class="swiper-slide faq-slide">
+                            <div class="faq-question">What payment methods do we accept?</div>
+                            <div class="faq-answer">We accept bank transfers, cash on delivery (within Lagos, Ogun, and Oyo states), and mobile money payments. We're currently working on integrating card payments for online orders coming soon.</div>
+                        </div>
+                        <div class="swiper-slide faq-slide">
+                            <div class="faq-question">How do we ensure product freshness during delivery?</div>
+                            <div class="faq-answer">Our produce is harvested to order whenever possible and packed in specially designed breathable containers that maintain optimal humidity. For longer distances, we use refrigerated transport to ensure your vegetables arrive as fresh as when they were picked.</div>
+                        </div>
+                    </div>
+                    <div class="faq-pagination">
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Farm Gallery</h2>
+                <div class="w-20 h-1 bg-green-400 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 1.png" alt="Lush farm field" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 2.png" alt="Vegetable harvesting" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 3.png" alt="Fresh produce" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 4.png" alt="Farm workers" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 5.png" alt="Lush farm field" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 6.jpg" alt="Fresh produce" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 7.jpg" alt="Farm workers" class="w-full h-full object-cover aspect-square">
+                </div>
+                <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
+                    <img src="gallery 8.jpg" alt="Lush farm field" class="w-full h-full object-cover aspect-square">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Us Section -->
+    <section class="py-20 bg-white find-us" id="find-us">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Find Us</h2>
+                <div class="w-20 h-1 bg-green-400 mx-auto"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Visit our farm or get in touch via WhatsApp for orders and inquiries.</p><br><br>
+                <div class="map-container" id="contact">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.588286460767!2d6.331715699999999!3d5.6276319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104181c7ca8b7111%3A0x721fe4aeed42ee53!2sSweet%20vegetable%20farm%20Ltd!5e0!3m2!1sen!2sin!4v1750670168903!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>           
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container max-w-[1400px] mx-auto px-6 py-6">
+            <div class="flex flex-wrap">
+                <div class="w-full md:w-1/3 p-6">
+                    <h3 class="text-2xl font-bold mb-6">Sweet <span class="text-green-500">Vegetable Farm</span></h3>
+                    <p class="text-gray-400 mb-6">At Sweet Vegetable Farm, we've proudly delivered farm-fresh, 
+                    hand-picked produce across Nigeria for over a decade. Our commitment to quality, freshness,
+                    and care ensures that you receive the best vegetables straight from the farm to your doorstep.
+                    </p>
+                </div>
+                <div class="w-full md:w-1/3 p-6">
+                    <h4 class="text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#products" class="text-gray-400 hover:text-white transition duration-300">Our Product</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-white transition duration-300">FAQ's</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="w-full md:w-1/3 p-6">
+                    <h4 class="text-lg font-bold mb-4">Contact Info</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-green-400 mt-1 mr-3"></i>
+                            <p class="text-gray-400">Ogbarude ushie community, Ushie 322123, Nigeria</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone-alt text-green-400 mr-3"></i>
+                            <p class="text-gray-400">+234 816 549 0747 / 806 894 6491</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fab fa-whatsapp text-green-400 mr-3"></i>
+                            <p class="text-gray-400">+234 806 894 6491</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400">
+                <p>© <span id="current-year"></span> Sweet Vegetable Farm. All Rights Reserved. Powered by <a href="https://devauradigital.com/" class="text-gray-400 hover:text-white transition duration-300">Devaura Digital</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <div class="fixed bottom-6 left-6 z-50">
+        <a href="https://wa.me/2348068946491" class="bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition duration-300">
+            <i class="fab fa-whatsapp text-3xl"></i>
+        </a>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="back-to-top" class="bg-green-400 hover:bg-green-500 text-gray-800 w-12 h-12 rounded-lg flex items-center justify-center shadow-lg transition-opacity duration-300 opacity-0 invisible">
+            <i class="fas fa-arrow-up text-lg"></i>
+        </button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lazy-load Swiper
+            let swiperLoaded = false;
+            function loadSwiper() {
+                if (swiperLoaded) return;
+                swiperLoaded = true;
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+                script.async = true;
+                script.onload = () => {
+                    // Initialize Swiper for FAQs
+                    const faqSwiper = new Swiper('.faqSwiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                        loop: true,
+                        autoplay: {
+                            delay: 10000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.faqSwiper .swiper-pagination',
+                            clickable: true,
+                        }
+                    });
+
+                    // Initialize Swiper for Testimonials
+                    const testimonialSwiper = new Swiper('.testimonialSwiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                        loop: true,
+                        autoplay: {
+                            delay: 10000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            el: '.testimonialSwiper .swiper-pagination',
+                            clickable: true,
+                        },
+                        breakpoints: {
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 30,
+                            }
+                        }
+                    });
+                };
+                document.body.appendChild(script);
+            }
+
+            // Trigger Swiper load when FAQ or Testimonial section is in view
+            window.addEventListener('scroll', () => {
+                const faqSection = document.querySelector('#faq');
+                const testimonialSection = document.querySelector('.testimonialSwiper');
+                if ((faqSection.getBoundingClientRect().top < window.innerHeight || 
+                     testimonialSection.getBoundingClientRect().top < window.innerHeight) && !swiperLoaded) {
+                    loadSwiper();
+                }
+            });
+
+            // Check on load in case sections are already in view
+            if (document.querySelector('#faq').getBoundingClientRect().top < window.innerHeight || 
+                document.querySelector('.testimonialSwiper').getBoundingClientRect().top < window.innerHeight) {
+                loadSwiper();
+            }
+
+            // Quantity control for product section
+            const decreaseBtn = document.getElementById('decrease-quantity');
+            const increaseBtn = document.getElementById('increase-quantity');
+            const quantityInput = document.getElementById('quantity');
+            const priceDisplay = document.getElementById('price-display');
+            const customPopup = document.getElementById('custom-popup');
+            const cartQuantityText = document.getElementById('cart-quantity-text');
+            const cartQuantityTextMobile = document.getElementById('cart-quantity-text-mobile');
+            let cartQuantity = 0; // Track total cart quantity
+
+            function updateQuantity(change) {
+                let currentValue = parseInt(quantityInput.value) || 1;
+                currentValue += change;
+                if (currentValue < 1) currentValue = 1;
+                if (currentValue > 150) currentValue = 150;
+                quantityInput.value = currentValue;
+                const basePrice = 4000;
+                const totalPrice = currentValue * basePrice;
+                priceDisplay.textContent = `₦${totalPrice.toLocaleString()} / ${currentValue}kg`;
+            }
+
+            function updateCartQuantityText() {
+                cartQuantityText.textContent = `${cartQuantity}`;
+                cartQuantityTextMobile.textContent = `${cartQuantity}`;
+            }
+
+            decreaseBtn.addEventListener('click', () => updateQuantity(-1));
+            increaseBtn.addEventListener('click', () => updateQuantity(1));
+
+            quantityInput.addEventListener('input', () => {
+                let value = parseInt(quantityInput.value) || 1;
+                if (value < 1) value = 1;
+                if (value > 150) value = 150;
+                quantityInput.value = value;
+                updateQuantity(0);
+            });
+
+            // Show custom popup
+            function showPopup(message) {
+                customPopup.querySelector('p').textContent = message;
+                customPopup.classList.add('show');
+                setTimeout(() => {
+                    customPopup.classList.remove('show');
+                }, 2000); // Hide after 2 seconds
+            }
+
+            // Cart modal handling
+            const cartModal = document.getElementById('cart-modal');
+            const cartButton = document.getElementById('cart-button');
+            const cartButtonMobile = document.getElementById('cart-button-mobile');
+            const closeCart = document.getElementById('close-cart');
+            const orderNowButton = document.getElementById('order-now');
+            const cartNameInput = document.getElementById('cart-name');
+            const cartQuantityInput = document.getElementById('cart-quantity');
+            const cartAddressInput = document.getElementById('cart-address');
+            const cartMobileInput = document.getElementById('cart-mobile');
+            const submitOrderButton = document.getElementById('submit-order');
+
+            function toggleCartModal() {
+                if (cartQuantity === 0) {
+                    showPopup('Your cart is empty!');
+                    cartModal.classList.remove('open');
+                    return;
+                }
+                cartModal.classList.toggle('open');
+                if (cartModal.classList.contains('open')) {
+                    cartQuantityInput.value = cartQuantity; // Pre-fill quantity from cart
+                }
+            }
+
+            function closeCartModal() {
+                cartModal.classList.remove('open');
+            }
+
+            orderNowButton.addEventListener('click', () => {
+                cartQuantity += parseInt(quantityInput.value) || 1; // Add to total cart quantity
+                updateCartQuantityText();
+                showPopup('Item added to cart!');
+            });
+
+            cartButton.addEventListener('click', toggleCartModal);
+            cartButtonMobile.addEventListener('click', toggleCartModal);
+            closeCart.addEventListener('click', closeCartModal);
+
+            // Handle order submission with mobile number validation
+            submitOrderButton.addEventListener('click', () => {
+                const name = cartNameInput.value.trim();
+                const quantity = parseInt(cartQuantityInput.value) || 1;
+                const address = cartAddressInput.value.trim();
+                const mobile = cartMobileInput.value.trim();
+                const basePrice = 4000;
+                const totalPrice = quantity * basePrice;
+                const mobileRegex = /^\+234[0-9]{10}$/;
+
+                if (!name || !address || !mobile) {
+                    showPopup('Please fill in all fields.');
+                    return;
+                }
+
+                if (!mobileRegex.test(mobile)) {
+                    showPopup('Please enter a valid Nigerian mobile number (e.g., +2348123456789).');
+                    return;
+                }
+
+                const message = encodeURIComponent(
+                    `Hello, I'd like to order ${quantity}kg of Pumpkin Flute.\n` +
+                    `Name: ${name}\n` +
+                    `Total: ₦${totalPrice.toLocaleString()}\n` +
+                    `Delivery Address: ${address}\n` +
+                    `Mobile Number: ${mobile}\n` +
+                    `Please confirm my order.`
+                );
+                window.open(`https://wa.me/2348068946491?text=${message}`, '_blank');
+                closeCartModal();
+                cartQuantity = 0; // Reset cart after submission
+                updateCartQuantityText();
+                cartNameInput.value = ''; // Clear name input
+                cartQuantityInput.value = 1; // Reset quantity input
+                cartAddressInput.value = ''; // Clear address
+                cartMobileInput.value = ''; // Clear mobile
+            });
+
+            // Set current year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-button').addEventListener('click', () => {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+                const button = document.getElementById('mobile-menu-button');
+                button.setAttribute('aria-expanded', menu.classList.contains('hidden') ? 'false' : 'true');
+            });
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Custom smooth scroll function
+            function smoothScroll(targetY, duration) {
+                const startY = window.scrollY;
+                const distance = targetY - startY;
+                let startTime = null;
+
+                function animation(currentTime) {
+                    if (startTime === null) startTime = currentTime;
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    const ease = progress * (2 - progress);
+
+                    window.scrollTo(0, startY + distance * ease);
+
+                    if (timeElapsed < duration) {
+                        requestAnimationFrame(animation);
+                    }
+                }
+
+                requestAnimationFrame(animation);
+            }
+
+            // Back to top button
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                smoothScroll(0, 1500);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = anchor.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const targetY = targetElement.offsetTop - 80;
+                        smoothScroll(targetY, 1000);
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            document.getElementById('mobile-menu-button').setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+            });
+
+            // Product card animation on scroll
+            const productCards = document.querySelectorAll('.product-card');
+            
+            function checkScroll() {
+                productCards.forEach(card => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    if (cardPosition < screenPosition) {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            productCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            window.addEventListener('scroll', checkScroll);
+            window.addEventListener('load', checkScroll);
+        });
+    </script>
+</body>
+</html>
