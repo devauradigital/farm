@@ -9,7 +9,7 @@
     <meta name="author" content="Sweet Vegetable Farm">
     <meta property="og:title" content="Sweet Vegetable Farm - Premium Nigerian Vegetables">
     <meta property="og:description" content="Discover fresh, organic pumpkin flute from Nigeria's heartland.">
-    <meta property="og:image" content="pumpkin flute.png">
+    <meta property="og:image" content="images/pumpkin flute.png">
     <meta property="og:url" content="https://yourwebsite.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -484,6 +484,38 @@
             .hero h1 {
                 font-size: 2rem;
             }
+            /* Gallery 2x4 grid on mobile */
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .gallery-grid > div {
+                height: 120px;
+            }
+            /* About section: Image first, then description */
+            .about-flex {
+                flex-direction: column-reverse;
+            }
+            .about-flex > div {
+                width: 100%;
+                padding: 1rem;
+            }
+            .farm-image-container {
+                height: 300px;
+                margin-bottom: 1rem;
+            }
+            /* Product section: Ensure no cutting off */
+            .product-section {
+                overflow: visible;
+            }
+            .product-section .container {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .product-card {
+                max-width: 100%;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -553,7 +585,7 @@
             <label for="cart-address" id="cart-address-label">Delivery Address:</label>
             <textarea id="cart-address" name="cart-address" placeholder="Enter your delivery address" required aria-required="true" aria-labelledby="cart-address-label"></textarea>
             <label for="cart-mobile" id="cart-mobile-label">Mobile Number:</label>
-            <input type="tel" id="cart-mobile" name="cart-mobile" placeholder="Enter your mobile number (e.g., +2348123456789)" required aria-required="true" aria-labelledby="cart-mobile-label">
+            <input type="tel" id="cart-mobile" name="cart-mobile" value="+234" placeholder="Enter your 10-digit number (e.g., 8123456789)" required aria-required="true" aria-labelledby="cart-mobile-label">
             <button id="submit-order">Send Order via WhatsApp</button>
         </div>
     </div>
@@ -576,7 +608,7 @@
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">About Sweet Vegetable Farm</h2>
                 <div class="w-20 h-1 bg-green-400 mx-auto"></div>
             </div>
-            <div class="flex flex-wrap">
+            <div class="flex flex-wrap about-flex">
                 <div class="w-full md:w-1/2 p-6">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4">Our Story</h3>
                     <p class="text-gray-600 mb-4">Founded in 2010, Sweet Vegetable Farm began as a small family operation in the fertile lands of Nigeria. What started as a modest patch of pumpkin cultivation has grown into a specialized agricultural business focused solely on producing premium-quality pumpkin flute.</p>
@@ -802,7 +834,7 @@
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Our Farm Gallery</h2>
                 <div class="w-20 h-1 bg-green-400 mx-auto"></div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid gallery-grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 <div class="overflow-hidden rounded-lg h-48 hover:shadow-lg transition-transform duration-300 hover:scale-105">
                     <img src="gallery 1.png" alt="Lush farm field" class="w-full h-full object-cover aspect-square">
                 </div>
@@ -992,8 +1024,8 @@
             }
 
             function updateCartQuantityText() {
-                cartQuantityText.textContent = `${cartQuantity}`;
-                cartQuantityTextMobile.textContent = `${cartQuantity}`;
+                cartQuantityText.textContent = cartQuantity;
+                cartQuantityTextMobile.textContent = cartQuantity;
             }
 
             decreaseBtn.addEventListener('click', () => updateQuantity(-1));
@@ -1056,40 +1088,60 @@
 
             // Handle order submission with mobile number validation
             submitOrderButton.addEventListener('click', () => {
-                const name = cartNameInput.value.trim();
+                const name = cartNameInput.value.trim().replace(/\n/g, ' '); // Remove line breaks
                 const quantity = parseInt(cartQuantityInput.value) || 1;
-                const address = cartAddressInput.value.trim();
+                const address = cartAddressInput.value.trim().replace(/\n/g, ' '); // Remove line breaks
                 const mobile = cartMobileInput.value.trim();
                 const basePrice = 4000;
                 const totalPrice = quantity * basePrice;
                 const mobileRegex = /^\+234[0-9]{10}$/;
 
+                // Validate inputs
                 if (!name || !address || !mobile) {
                     showPopup('Please fill in all fields.');
                     return;
                 }
 
                 if (!mobileRegex.test(mobile)) {
-                    showPopup('Please enter a valid Nigerian mobile number (e.g., +2348123456789).');
+                    showPopup('Please enter a valid Nigerian mobile number starting with +234 followed by 10 digits (e.g., +2348123456789).');
                     return;
                 }
 
+                if (quantity < 1 || quantity > 150) {
+                    showPopup('Quantity must be between 1 and 150 kg.');
+                    return;
+                }
+
+                // Construct formatted WhatsApp message
                 const message = encodeURIComponent(
-                    `Hello, I'd like to order ${quantity}kg of Pumpkin Flute.\n` +
-                    `Name: ${name}\n` +
-                    `Total: ₦${totalPrice.toLocaleString()}\n` +
-                    `Delivery Address: ${address}\n` +
-                    `Mobile Number: ${mobile}\n` +
-                    `Please confirm my order.`
+                    `🌿 *New Order Request* 🌿\n\n` +
+                    `*Product*: Pumpkin Flute\n` +
+                    `*Quantity*: ${quantity}kg\n` +
+                    `*Total Price*: ₦${totalPrice.toLocaleString()}\n` +
+                    `*Customer Name*: ${name}\n` +
+                    `*Delivery Address*: ${address}\n` +
+                    `*Mobile Number*: ${mobile}\n\n` +
+                    `Please confirm this order. Thank you! 🙏`
                 );
-                window.open(`https://wa.me/2348068946491?text=${message}`, '_blank');
+
+                // Open WhatsApp with pre-filled message
+                try {
+                    window.open(`https://wa.me/2348068946491?text=${message}`, '_blank');
+                    showPopup('Order sent to WhatsApp! Please press send to confirm.');
+                } catch (error) {
+                    showPopup('Error opening WhatsApp. Please try again.');
+                    console.error('WhatsApp link error:', error);
+                    return;
+                }
+
+                // Reset form and cart
                 closeCartModal();
-                cartQuantity = 0; // Reset cart after submission
+                cartQuantity = 0;
                 updateCartQuantityText();
-                cartNameInput.value = ''; // Clear name input
-                cartQuantityInput.value = 1; // Reset quantity input
-                cartAddressInput.value = ''; // Clear address
-                cartMobileInput.value = ''; // Clear mobile
+                cartNameInput.value = '';
+                cartQuantityInput.value = 1;
+                cartAddressInput.value = '';
+                cartMobileInput.value = '+234'; // Reset to default +234
             });
 
             // Set current year
